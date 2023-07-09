@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:shopping_app_using_provider/global_variables.dart';
+import 'package:provider/provider.dart';
+import 'package:shopping_app_using_provider/cart_provider.dart';
 import 'package:shopping_app_using_provider/home_page.dart';
-// import 'package:shopping_app_using_provider/product_details_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=> CartProvider())
+      ],
+     child: MaterialApp(
       title: 'Shopping App',
       theme: ThemeData(
         fontFamily: 'Lato',
@@ -36,7 +40,7 @@ class MyApp extends StatelessWidget {
           ),
           bodySmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        appBarTheme: AppBarTheme(
+        appBarTheme:const AppBarTheme(
           titleTextStyle: TextStyle(
             fontSize: 20,
             color: Colors.black,
@@ -45,7 +49,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
        home: HomePage(),
-      // home: ProductDetailsPage(product: products[0]),
+     ),
     );
   }
 }
