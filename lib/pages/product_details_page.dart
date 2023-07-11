@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_app_using_provider/cart_provider.dart';
+import 'package:shopping_app_using_provider/providers/cart_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -43,9 +43,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text('Details',
-                style: Theme.of(context).appBarTheme.titleTextStyle)),
+        title: Text('Details',textAlign: TextAlign.center,
+            style: Theme.of(context).appBarTheme.titleTextStyle),
       ),
       body: Column(
         children: [
@@ -54,14 +53,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           const Spacer(),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Image.asset(widget.product['imageUrl'] as String),
+            child: Image.asset(widget.product['imageUrl'] as String,height: 250,),
           ),
           const Spacer(flex: 2),
           Container(
             height: 250,
             decoration: BoxDecoration(
                 color: const Color.fromRGBO(245, 247, 249, 1),
-                borderRadius: BorderRadius.circular(20)),
+                borderRadius: BorderRadius.circular(20)
+                ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -104,7 +104,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
-                          minimumSize: const Size(double.infinity, 50)),
+                          fixedSize: const Size(350, 50)
+                          ),
                       label: const Text(
                         'Add To Cart',
                         style: TextStyle(fontSize: 18, color: Colors.black),

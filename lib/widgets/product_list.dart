@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app_using_provider/global_variables.dart';
-import 'package:shopping_app_using_provider/product_card.dart';
-import 'package:shopping_app_using_provider/product_details_page.dart';
+import 'package:shopping_app_using_provider/widgets/product_card.dart';
+import 'package:shopping_app_using_provider/pages/product_details_page.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
@@ -19,8 +19,11 @@ class _ProductListState extends State<ProductList> {
     super.initState();
     selectedFilter = filters[0];
   }
+
   @override
   Widget build(BuildContext context) {
+    //final size = MediaQuery.sizeOf(context);
+    //double ratio = size.width < 670 ? 1 : 2;
     const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Color.fromRGBO(225, 225, 225, 1),
@@ -87,31 +90,65 @@ class _ProductListState extends State<ProductList> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: products.length,
-              itemBuilder: ((context, index) {
-                final product = products[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) =>
-                                ProductDetailsPage(product: products[index])));
-                  },
-                  child: ProductCard(
-                    id: product['id'] as String,
-                    title: product['title'] as String,
-                    price: product['price'] as double,
-                    image: product['imageUrl'] as String,
-                    backgroundColor: index.isEven
-                        ? const Color.fromRGBO(216, 240, 253, 1)
-                        : Colors.green.shade50,
+            child: LayoutBuilder(builder: (context, contraint) {
+              if (contraint.maxWidth > 1180) {
+                return GridView.builder(
+                  gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.75,
                   ),
+                  itemCount: products.length,
+                  itemBuilder: ((context, index) {
+                    final product = products[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) =>
+                                    ProductDetailsPage(product: product)));
+                      },
+                      child: ProductCard(
+                        id: product['id'] as String,
+                        title: product['title'] as String,
+                        price: product['price'] as double,
+                        image: product['imageUrl'] as String,
+                        backgroundColor: index.isEven
+                            ? const Color.fromRGBO(216, 240, 253, 1)
+                            : Colors.green.shade50,
+                      ),
+                    );
+                  }),
                 );
-              }),
+              }else{
+                return ListView.builder(
+                itemCount: products.length,
+                itemBuilder: ((context, index) {
+                  final product = products[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (ctx) =>
+                                  ProductDetailsPage(product: products[index])));
+                    },
+                    child: ProductCard(
+                      id: product['id'] as String,
+                      title: product['title'] as String,
+                      price: product['price'] as double,
+                      image: product['imageUrl'] as String,
+                      backgroundColor: index.isEven
+                          ? const Color.fromRGBO(216, 240, 253, 1)
+                          : Colors.green.shade50,
+                    ),
+                  );
+                }),
+              );
+              }
+            },
             ),
-          ),
+          )
         ],
       ),
     );
